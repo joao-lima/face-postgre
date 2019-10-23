@@ -40,13 +40,13 @@ for i, face_rect in enumerate(detected_faces):
     threshold = 0.6
     if len(encodings) > 0:
         query = "SELECT file FROM vectors WHERE sqrt(power(CUBE(array[{}]) <-> vec_low, 2) + power(CUBE(array[{}]) <-> vec_high, 2)) <= {} ".format(
-            ','.join(str(s) for s in encodings[0][0:64]),
-            ','.join(str(s) for s in encodings[0][64:128]),
+            ','.join(str(s) for s in encodings[0][0:63]),
+            ','.join(str(s) for s in encodings[0][63:127]),
             threshold,
         ) + \
-                "ORDER BY sqrt(power(CUBE(array[{}]) <-> vec_low, 2) + power(CUBE(array[{}]) <-> vec_high, 2)) <-> vec_high) ASC LIMIT 1".format(
-                    ','.join(str(s) for s in encodings[0][0:64]),
-                    ','.join(str(s) for s in encodings[0][64:128]),
+                "ORDER BY sqrt(power(CUBE(array[{}]) <-> vec_low, 2) + power(CUBE(array[{}]) <-> vec_high, 2)) ASC LIMIT 1".format(
+                    ','.join(str(s) for s in encodings[0][0:63]),
+                    ','.join(str(s) for s in encodings[0][63:127]),
                 )
         print(db.query(query))
     else:
